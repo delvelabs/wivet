@@ -190,12 +190,12 @@
 			//mysql_free_result($rs);
 		} else {  // using temp files
 			$scans = array();
-			$files = scandir($_SESSION['statisticsdir']);
+			$files = scandir($_SESSION['resultdir']);
 			foreach($files as $k=>$v){
-				if(is_file($_SESSION['statisticsdir'].$v) && preg_match('/^.*\.dat/', $v)) {
+				if(is_file($_SESSION['resultdir'].$v) && preg_match('/^.*\.dat/', $v)) {
 					//$v = str_replace('.dat','',$v);
 					//$parts = explode('_',$v);
-                                        $scan = unserialize(file_get_contents($_SESSION['statisticsdir'] . $v));
+                                        $scan = unserialize(file_get_contents($_SESSION['resultdir'] . $v));
 					//$scans[] = array('record'=>$v, 'ipaddress'=>$parts[0], 'starttime'=>$parts[1], 'pageVisits', 'useragent');
                                         $scans[] = $scan;
 				}
@@ -221,10 +221,10 @@
 		} else {  // using temp files
 
 		    // open stats directory 
-		    $dir = opendir($_SESSION['statisticsdir']);
+		    $dir = opendir($_SESSION['resultdir']);
 		    while($entry = readdir($dir)) {
 		    	if ( preg_match('/.dat$/', $entry) ){
-		        	unlink( $_SESSION['statisticsdir'] . $entry );
+		        	unlink( $_SESSION['resultdir'] . $entry );
 		        }
 		    }
 		}
@@ -232,7 +232,7 @@
 	}
 
 	function fileExists($filename){
-		return is_file($_SESSION['statisticsdir'] . $filename . ".dat");
+		return is_file($_SESSION['resultdir'] . $filename . ".dat");
 	}
 	
 	// saves a scans data
@@ -268,10 +268,10 @@
 				return;
 			}
 
-			$filename = $_SESSION['statisticsdir'] . $record . ".dat";
+			$filename = $_SESSION['resultdir'] . $record . ".dat";
 			if(file_put_contents($filename,serialize($data))) {
 			} else {
-				echo "Could not save record"; //"cant open file : " . $_SESSION['statisticsdir'] . $filename . ".dat";		
+				echo "Could not save record"; //"cant open file : " . $_SESSION['resultdir'] . $filename . ".dat";		
 			}
 		}
 	}
@@ -369,7 +369,7 @@
 			
 			return $scan;
 		} else { // using temp files
-			$filename = $_SESSION['statisticsdir'] . $record . ".dat";
+			$filename = $_SESSION['resultdir'] . $record . ".dat";
 			$scan = array();
 			if(is_file($filename)) {
 				$scan = file_get_contents($filename);
