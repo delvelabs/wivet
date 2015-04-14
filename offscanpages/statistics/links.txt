@@ -55,3 +55,4 @@
 20_1e833#html encoded links
 21_1f822#protocol relative links
 22_16e11#websocket reseting href
+22_abcde#websocket create href
