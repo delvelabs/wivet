@@ -54,5 +54,6 @@
 19_2e3a2#link attached to a swf simple button parameterized onclick event
 20_1e833#html encoded links
 21_1f822#protocol relative links
-22_16e11#websocket reseting href
-22_abcde#websocket create href
+22_16e11#websocket set
+22_abcde#websocket create 
+22_abcde#websocket split
