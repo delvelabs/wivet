@@ -13,7 +13,7 @@ ENV LC_ALL en_US.UTF-8
 # Disable dialog selection for packages
 ENV DEBIAN_FRONTEND noninteractive
 
-RUN apt-get update && \
+RUN apt-get update \
     && apt-get upgrade -y \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
