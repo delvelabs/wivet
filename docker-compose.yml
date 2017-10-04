@@ -1,4 +1,18 @@
-php:
-  image: andresriancho/wivet:latest
-  ports:
-    - "8899:80"
+version: '2.1'
+services:
+
+  www:
+    build:
+      context: ./
+      dockerfile: src/www.Dockerfile
+    container_name: www
+    ports:
+      - "8080:80"
+
+  websocket:
+    build:
+      context: ./
+      dockerfile: src/websocket.Dockerfile
+    container_name: websocket
+    ports:
+      - "8181:8181"

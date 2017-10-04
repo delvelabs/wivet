@@ -1,0 +1,11 @@
+{
+  "name": "wivet-websocket",
+  "version": "0.0.1",
+  "main": "echo_server.js",
+  "scripts": {
+    "start": "node echo_server.js"
+  },
+  "dependencies": {
+    "websocket": "1.0.24"
+  }
+}
