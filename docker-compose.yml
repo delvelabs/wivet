@@ -8,6 +8,10 @@ services:
     container_name: www
     ports:
       - "8080:80"
+    environment:
+      "WS_HOSTNAME": "localhost"
+      "WS_PORT": "8181"
+
 
   websocket:
     build:

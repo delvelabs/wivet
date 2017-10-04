@@ -4,6 +4,7 @@
 	// 			node echo_server.js
 	define('NOSTARTBODY', true);
 	require_once('../genclude.php');
+    $ws_url = getenv('WS_HOSTNAME').':'.getenv('WS_PORT');
 ?>
 
 <script>
@@ -23,7 +24,7 @@
 		// override href in existing <a> with direct link
 		button1.addEventListener("click", function(event) {
 
-			socket1 = new WebSocket("ws://localhost:8181", "echo-protocol");
+			socket1 = new WebSocket("ws://<?php echo $ws_url ?>", "echo-protocol");
 
 			socket1.addEventListener("open", function(event) {
 				socket1.send('../innerpages/<?php tc('22_16e11'); ?>.php');
@@ -46,7 +47,7 @@
 		// create new <a> with direct link
 		button2.addEventListener("click", function(event) {
 
-			socket2 = new WebSocket("ws://localhost:8181", "echo-protocol");
+			socket2 = new WebSocket("ws://<?php echo $ws_url ?>", "echo-protocol");
 
 			socket2.addEventListener("open", function(event) {
 				socket2.send('../innerpages/<?php tc('22_abcde'); ?>.php');
@@ -72,7 +73,7 @@
 		// create new <a> with created link
 		button3.addEventListener("click", function(event) {
 
-			socket3 = new WebSocket("ws://localhost:8181", "echo-protocol");
+			socket3 = new WebSocket("ws://<?php echo $ws_url ?>", "echo-protocol");
 
 			socket3.addEventListener("open", function(event) {
 				socket3.send('innerpages,<?php tc('22_8590a.php'); ?>');
