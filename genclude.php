@@ -86,11 +86,12 @@
 
 	$_SESSION['baseaddr'] = currentHost() . $url_relative;
 	$_SESSION['baseaddrwithnoprotocol'] = currentHostWithNoProtocol() . $url_relative;
-	$_SESSION['statisticsdir'] = FILESTORE_PATH;
 	$_SESSION['installdir'] = dirname(__FILE__) . "/";
 	$_SESSION['pagesdir'] = $_SESSION['installdir'] . "pages/";
 	$_SESSION['innerpagesdir'] = $_SESSION['installdir'] . "innerpages/";
-        $_SESSION['offscanpagesdir'] = $_SESSION['installdir'] . "offscanpages/";
+	$_SESSION['offscanpagesdir'] = $_SESSION['installdir'] . "offscanpages/";
+	$_SESSION['statisticsdir'] = $_SESSION['installdir'] . '/offscanpages/statistics/';
+	$_SESSION['resultdir'] = FILESTORE_PATH;
 
 	if(!isset($_SESSION['time'])){
 		$_SESSION['time'] = time();
