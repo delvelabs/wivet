@@ -1,4 +1,0 @@
-googlebot
-msnbot
-yahoo! slurp
-Sirketcebot
