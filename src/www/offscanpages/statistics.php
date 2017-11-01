@@ -37,10 +37,6 @@
 						<td>Started On</td>
 						<td>:&nbsp;&nbsp;<b><?php echo htmlentities(date('M dS Y h:i:s A', $scan['starttime']), ENT_QUOTES);?></b></td>
 					</tr>
-					<tr>
-						<td>Details</td>
-						<td>:</td>
-					</tr>
 				</table>
 				<br/>
 				<span class="explanation">purple rows indicate missed cases, other rows indicate hit.</span>
@@ -57,10 +53,8 @@
 ?>
 
 						<th>User Agent</th>
-						<!--
-						<th>Time of First Access</th>
-						<th>Time of Last Access</th>
-						-->
+						<th>First Seen</th>
+						<th>Last Seen</th>
 					</thead>
 					<tbody>
 				<?php
@@ -101,8 +95,8 @@
 						} else {
 							echo "<td>" . substr($v["useragent"], 0, 25) . " ... " . substr($v["useragent"], strlen($v["useragent"]) - 25, 25) . "</td>";
 						}
-						//echo "<td>" . date('Y m d H:i:s', $v["timefirstaccess"]) . "</td>";
-						//echo "<td>" . date('Y m d H:i:s', $v["timelastaccess"]) . "</td>";
+						echo "<td>" . date('Y m d H:i:s', $v["timefirstaccess"]) . "</td>";
+						echo "<td>" . date('Y m d H:i:s', $v["timelastaccess"]) . "</td>";
 						echo "</tr>";
 						$i++;
 					}
@@ -113,12 +107,14 @@
 							echo "<tr class='miss'>";
 								echo "<td>" . $k . "</td>";
 								echo "<td>" . $descEntries[$k] . "</td>";
-								echo "<td>N/A</td>";
+								echo "<td>0</td>";
 								if(CHEATPROOF) {
 									echo "<td>??</td>";
 									//echo '<td>'.$_SESSION['testcases'][$k].".php</td>";
 								}
 								echo "<td>N/A</td>";
+								echo "<td>Never</td>";
+								echo "<td>Never</td>";
 							echo "</tr>";
 						}
 					}
@@ -173,19 +169,8 @@
 
 					// if this wasn't a bot then list it to the user
 					if(!$isBot){
-						if(!isset($scan["useragent"])) {
-							$scan["useragent"] = '';
-						}
-						if(strlen($scan["useragent"]) < 70) {
-							$uagent = $scan["useragent"];
-						} else {
-								$uagent = substr($scan["useragent"], 0, 25) . " ... " .
-									substr($scan["useragent"], strlen($scan["useragent"]) - 25, 25);
-						}
 
-
-
-						echo '<a href="statistics.php?id='.$scan['record'] .'">'.htmlentities($scan['ipaddress'], ENT_QUOTES).' started on '.date('M dS Y h:i:s A',$scan['starttime']).'</a>&nbsp;&nbsp;(Coverage: '.htmlentities($scan['score'], ENT_QUOTES).')'.' &nbsp;&nbsp;'.htmlentities($uagent, ENT_QUOTES).'&nbsp;&nbsp;&nbsp;&nbsp;[<a style="color:red;" href="#" onClick="deleteEntry('.$scan['record'] .')">delete</a>]' ;
+						echo '<a href="statistics.php?id='.$scan['record'] .'">'.htmlentities($scan['ipaddress'], ENT_QUOTES).' started on '.date('M dS Y h:i:s A',$scan['starttime']).'</a>&nbsp;&nbsp;(Coverage: '.htmlentities($scan['score'], ENT_QUOTES).')'.'&nbsp;&nbsp;&nbsp;&nbsp;[<a style="color:red;" href="#" onClick="deleteEntry('.$scan['record'] .')">delete</a>]' ;
 						//$brCount++;
 						//if($brCount%4 == 0)
 						echo '<br/>';
