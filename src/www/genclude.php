@@ -16,7 +16,7 @@
 
 			if(!isset($html_title)) { $html_title = ''; }
 			if(!isset($html_body_class)) { $html_body_class = 'body'; }
-		
+
 			echo '<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">'."\n";
 			echo "<html>\n";
 			echo "	<head>\n";
@@ -40,11 +40,11 @@
 			echo '	<body  class="'.$html_body_class.'">'."\n";
 		}
 	}
-	
+
 	function html_footer() {
 		GLOBAL $db;
 		if(gettype($db) == 'resource') {
-			mysql_close($db);			
+			mysql_close($db);
 		}
 		if(defined('HTML_HEADER_DISPLAYED')) {
 			echo '	</body>'."\n";
@@ -75,10 +75,10 @@
 	/**********************/
 	/* Get things rolling */
 	/**********************/
-	
+
 	register_shutdown_function('html_footer');
-	
-	if(empty($_SESSION)) { 
+
+	if(empty($_SESSION)) {
 		session_start();
 	}
 
@@ -100,7 +100,7 @@
 	if(!isset($_SESSION['testcases'])){
 		$_SESSION['testcases'] = listInternalPages();
 	}
-	
+
 //html_print_r($_SESSION['testcases'], '$_SESSION[testcases]');
 
 	if(!isset($_SESSION['scan']['starttime'])){
@@ -108,7 +108,13 @@
 	}
 
 	if(!isset($_SESSION['scan']['ipaddress'])){
-		$_SESSION['scan']['ipaddress'] = $_SERVER['REMOTE_ADDR'];
+        if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)){
+            $_SESSION['scan']['ipaddress'] =$_SERVER["HTTP_X_FORWARDED_FOR"];
+        }else if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
+            $_SESSION['scan']['ipaddress'] =  $_SERVER["REMOTE_ADDR"];
+        }else if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
+            $_SESSION['scan']['ipaddress'] = $_SERVER["HTTP_CLIENT_IP"];
+        }
 	}
 
 	if(!isset($_SESSION['scan']['record'])){
