@@ -11,14 +11,15 @@
 			} else {
 				$scan = loadScan();
 			}
-			if(!isset($scan['pageVisits'])) {
-				$scan['pageVisits'] = array();
-			}
+
 			//html_print_r($scan, '$scan');
 			//html_print_r($_SESSION['testcases'], '$_SESSION[testcases]');
 
-			if(!empty($_GET['id']) && is_array($scan)) {
-				if($showbacklink) {
+			if($scan != false && !empty($_GET['id']) && is_array($scan)) {
+                if(!isset($scan['pageVisits'])) {
+                    $scan['pageVisits'] = array();
+                }
+                if($showbacklink) {
 					echo "<br/><a href='statistics.php'>BACK</a><br/><br/>";
 				}
 				$descEntries = loadLinksDesc();
@@ -170,8 +171,13 @@
 					// if this wasn't a bot then list it to the user
 					if(!$isBot){
 
+                        if($scan['ipaddress'] == $_SESSION['scan']['ipaddress']){
+                            echo '<b><i>';
+                        }
 						echo '<a href="statistics.php?id='.$scan['record'] .'">'.htmlentities($scan['ipaddress'], ENT_QUOTES).' started on '.date('M dS Y h:i:s A',$scan['starttime']).'</a>&nbsp;&nbsp;(Coverage: '.htmlentities($scan['score'], ENT_QUOTES).')'.'&nbsp;&nbsp;&nbsp;&nbsp;[<a style="color:red;" href="#" onClick="deleteEntry('.$scan['record'] .')">delete</a>]' ;
-						//$brCount++;
+                        if($scan['ipaddress'] == $_SESSION['scan']['ipaddress']){
+                            echo '</i></b>';
+                        }						//$brCount++;
 						//if($brCount%4 == 0)
 						echo '<br/>';
 					}
