@@ -131,6 +131,16 @@
 
 				<?php
 			} else {
+
+                if(isset($_GET['rm_id']) && !empty($_GET['rm_id'])) {
+                    if($_GET['rm_id'] == "ALL_ENTRIES"){
+                        clearScans();
+                    } else {
+				        clearScan(intval($_GET['rm_id']));
+				    }
+                }
+
+
 				$scans = listScans();
 				$bots = loadBotsList();
 
@@ -139,6 +149,12 @@
 				echo "<br/><br/>";
 				//rsort($scans);
 				//$brCount = 0;
+                echo '<script>function deleteEntry(record){
+                   if(window.prompt("2 + 2 = ?") === "4"){
+                       window.location.href = "statistics.php?rm_id=" + record;
+                   }
+                }</script>';
+
 				foreach($scans as $scan){
 					// get a user agent, maybe I shouldn't store user agent in values
 					//$scanEntries = saveScan($tokens[0]);
@@ -167,7 +183,9 @@
 									substr($scan["useragent"], strlen($scan["useragent"]) - 25, 25);
 						}
 
-						echo '<a href="statistics.php?id='.$scan['record'] .'">'.htmlentities($scan['ipaddress'], ENT_QUOTES).' started on '.date('M dS Y h:i:s A',$scan['starttime']).'</a>&nbsp;&nbsp;(Coverage: '.htmlentities($scan['score'], ENT_QUOTES).')'.' &nbsp;&nbsp;'.htmlentities($uagent, ENT_QUOTES) ;
+
+
+						echo '<a href="statistics.php?id='.$scan['record'] .'">'.htmlentities($scan['ipaddress'], ENT_QUOTES).' started on '.date('M dS Y h:i:s A',$scan['starttime']).'</a>&nbsp;&nbsp;(Coverage: '.htmlentities($scan['score'], ENT_QUOTES).')'.' &nbsp;&nbsp;'.htmlentities($uagent, ENT_QUOTES).'&nbsp;&nbsp;&nbsp;&nbsp;[<a style="color:red;" href="#" onClick="deleteEntry('.$scan['record'] .')">delete</a>]' ;
 						//$brCount++;
 						//if($brCount%4 == 0)
 						echo '<br/>';
@@ -176,6 +194,15 @@
 
 				if(count($scans) == 0){
 						echo "No statistics collected for now ...";
+				} else {
+
+                    echo '<script>function deleteAll(){
+                       if(window.prompt("1 + 1 = ?") === "2"){
+                           window.location.href = "statistics.php?rm_id=ALL_ENTRIES";
+                       }
+                    }</script>';
+
+                    echo '<br/><hr/><br/>[<a style="color:red;" href="#" onClick="deleteAll()">delete ALL ENTRIES</a>]';
 				}
 			}
 			?>

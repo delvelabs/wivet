@@ -228,8 +228,16 @@
 		        }
 		    }
 		}
-
 	}
+
+    function clearScan($record){
+
+        if($_SESSION['scan']['record'] == $record){
+            $_SESSION['scan'] = array();
+        }
+        // open stats directory
+        unlink( $_SESSION['resultdir'].$record.'.dat' );
+    }
 
 	function fileExists($filename){
 		return is_file($_SESSION['resultdir'] . $filename . ".dat");
