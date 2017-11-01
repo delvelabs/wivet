@@ -6,7 +6,7 @@
 	function html_print_r($v, $n = '', $ret = false) {
 		if($ret) {
 			ob_start();
-		}	
+		}
 		echo $n.'<pre>';
 		print_r($v);
 		echo '</pre>';
@@ -24,7 +24,7 @@
 		}
 		$pageURL .= "://";
 		if ($_SERVER["SERVER_PORT"] != "80") {
-			$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];		
+			$pageURL .= $_SERVER["SERVER_NAME"].":".$_SERVER["SERVER_PORT"];
 		} else {
 			$pageURL .= $_SERVER["SERVER_NAME"];
 		}
@@ -80,32 +80,32 @@
 		return round($size,2) . ' ' . $a[$pos];
 	}
 
-	function ordinal_num($cdnl){ 
-		$test_c = abs($cdnl) % 10; 
-		$ext = ((abs($cdnl) %100 < 21 && abs($cdnl) %100 > 4) ? 'th' 
-            : (($test_c < 4) ? ($test_c < 3) ? ($test_c < 2) ? ($test_c < 1) 
-            ? 'th' : 'st' : 'nd' : 'rd' : 'th')); 
-		return $cdnl.$ext; 
-	}  
+	function ordinal_num($cdnl){
+		$test_c = abs($cdnl) % 10;
+		$ext = ((abs($cdnl) %100 < 21 && abs($cdnl) %100 > 4) ? 'th'
+            : (($test_c < 4) ? ($test_c < 3) ? ($test_c < 2) ? ($test_c < 1)
+            ? 'th' : 'st' : 'nd' : 'rd' : 'th'));
+		return $cdnl.$ext;
+	}
 
 
 	function convertUrlQuery($query) {
 		$queryParts = explode('&', $query);
 		$params = array();
-		foreach ($queryParts as $param) { 
-			$item = explode('=', $param); 
+		foreach ($queryParts as $param) {
+			$item = explode('=', $param);
 			$params[$item[0]] = $item[1];
 		}
 		return $params;
-	} 
+	}
 
 	function getRelativeInstallDir($_REAL_BASE_DIR = false) {
 		$_REAL_SCRIPT_DIR = realpath(dirname($_SERVER['SCRIPT_FILENAME'])); // filesystem path of this page's directory (page.php)
 		if($_REAL_BASE_DIR === false) {
 			$_REAL_BASE_DIR = realpath(dirname(__FILE__)); // filesystem path of this file's directory (config.php)
 		}
-		$_MY_PATH_PART = substr( $_REAL_SCRIPT_DIR, strlen($_REAL_BASE_DIR)); // just the subfolder part between <installation_path> and the 
-		$INSTALLATION_PATH = $_MY_PATH_PART ? substr( dirname($_SERVER['SCRIPT_NAME']), 0, -strlen($_MY_PATH_PART) ) : dirname($_SERVER['SCRIPT_NAME']); 
+		$_MY_PATH_PART = substr( $_REAL_SCRIPT_DIR, strlen($_REAL_BASE_DIR)); // just the subfolder part between <installation_path> and the
+		$INSTALLATION_PATH = $_MY_PATH_PART ? substr( dirname($_SERVER['SCRIPT_NAME']), 0, -strlen($_MY_PATH_PART) ) : dirname($_SERVER['SCRIPT_NAME']);
 		// we subtract the subfolder part from the end of <installation_path>, leaving us with just <installation_path> :)
 		if($INSTALLATION_PATH == '/') {
 			return '/';
@@ -118,7 +118,7 @@
 		if(gettype($db) != 'resource') {
 			$db = @mysql_connect(DB_SERVER, DB_LOGINID, DB_PASSWORD);
 			@mysql_select_db(DB_DATABASE, $db);
-		}	
+		}
 	}
 
 	/************************/
@@ -176,7 +176,7 @@
 	function listScans() {
 		GLOBAL $db;
 		if(DATASTORE == 'db') {
-			// add database version 
+			// add database version
 			loaddb();
 			//$sql = "SELECT * FROM scans ORDER BY starttime DESC";
 			$sql = "SELECT scans.*, (SELECT count(pageVisits.record) FROM pageVisits WHERE scans.record = pageVisits.record) as `pageVisits`, (SELECT pageVisits.useragent FROM pageVisits WHERE scans.record = pageVisits.record LIMIT 1) as `useragent` FROM scans ORDER BY starttime DESC";
@@ -208,9 +208,9 @@
 	function clearScans(){
 		GLOBAL $db;
 		if(DATASTORE == 'db') {
-			// add database version 
+			// add database version
 			loaddb();
-			
+
 			// Clear the scans DB
 			$sql = "DELETE FROM pageVisits WHERE 1=1";
 			$rs = mysql_query($sql, $db);
@@ -220,7 +220,7 @@
 			$rs = mysql_query($sql, $db);
 		} else {  // using temp files
 
-		    // open stats directory 
+		    // open stats directory
 		    $dir = opendir($_SESSION['resultdir']);
 		    while($entry = readdir($dir)) {
 		    	if ( preg_match('/.dat$/', $entry) ){
@@ -234,7 +234,7 @@
 	function fileExists($filename){
 		return is_file($_SESSION['resultdir'] . $filename . ".dat");
 	}
-	
+
 	// saves a scans data
 
 	function saveScan ($data, $record = '') {
@@ -248,17 +248,17 @@
 		}
 
 		/*
-			$scan is an array. it's keys are URIs and values are arrays 
-			in those arrays, individual items are stored as key/value pairs			 
+			$scan is an array. it's keys are URIs and values are arrays
+			in those arrays, individual items are stored as key/value pairs
 		*/
 		//html_print_r($_SESSION, '$_SESSION');
 
 		if(DATASTORE == 'db') {
-			// add database version 
+			// add database version
 			loaddb();
 			$sql = "INSERT INTO scans (record, ipaddress, starttime) VALUES ('".mysql_escape_string($record)."',".mysql_escape_string(ip2long($_SESSION['scan']['ipaddress'])).",".mysql_escape_string($_SESSION['scan']['starttime']).")";
 			//html_print_r($sql, '$sql');
-			$rs = mysql_query($sql, $db);		
+			$rs = mysql_query($sql, $db);
 			//mysql_free_result($rs);
 		} else {  // using temp files
 			// a little bit of a check!!!
@@ -271,7 +271,7 @@
 			$filename = $_SESSION['resultdir'] . $record . ".dat";
 			if(file_put_contents($filename,serialize($data))) {
 			} else {
-				echo "Could not save record"; //"cant open file : " . $_SESSION['resultdir'] . $filename . ".dat";		
+				echo "Could not save record"; //"cant open file : " . $_SESSION['resultdir'] . $filename . ".dat";
 			}
 		}
 	}
@@ -304,19 +304,19 @@
 
 		if(!isset($_SESSION['scan']['pageVisits'][$testcase])){
 			// initialize
-			$_SESSION['scan']['pageVisits'][$testcase] = 
-				array("testcase" => $testcase, 
+			$_SESSION['scan']['pageVisits'][$testcase] =
+				array("testcase" => $testcase,
 							"secreturi" => $secreturi,
 							"noofaccess" => 1,
 							"timefirstaccess" => time(),
 							"timelastaccess" => time(),
 							"useragent" => $_SERVER['HTTP_USER_AGENT'],
-							"ipaddress" => $_SERVER['REMOTE_ADDR']
+							"ipaddress" => $_SESSION['scan']['ipaddress']
 							);
 		} else {
 			$visitedurl = $_SESSION['scan']['pageVisits'][$testcase];
 			$_SESSION['scan']['pageVisits'][$testcase]["noofaccess"]++;
-			$_SESSION['scan']['pageVisits'][$testcase]["timelastaccess"] = time();	 
+			$_SESSION['scan']['pageVisits'][$testcase]["timelastaccess"] = time();
 		}
 
 		if(DATASTORE == 'db') {
@@ -328,15 +328,15 @@
 			$sql .= " ('".mysql_escape_string($_SESSION['scan']['record'])."','".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['testcase'])."','".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['secreturi'])."',".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['noofaccess']).",".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['timefirstaccess']).",".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['timelastaccess']).",'".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['useragent'])."','".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['ipaddress'])."')";
 			$sql .= " ON DUPLICATE KEY";
 			$sql .= " UPDATE noofaccess=noofaccess+1, timelastaccess = '".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['timelastaccess'])."', useragent = '".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['useragent'])."'";
-			$rs = mysql_query($sql, $db);		
+			$rs = mysql_query($sql, $db);
 			//mysql_free_result($rs);
 		} else {
-			saveScan($_SESSION['scan']);	
+			saveScan($_SESSION['scan']);
 		}
 		echo '		You have reached Test Case '.htmlentities($testcase).' for the '.ordinal_num($_SESSION['scan']['pageVisits'][$testcase]['noofaccess'])." time!<br/>\n";
 	}
 
-	// loads a file to a scan 
+	// loads a file to a scan
 	function loadScan($record = '') {
 		GLOBAL $db;
 
@@ -366,7 +366,7 @@
 				$scan['pageVisits'][$k] = $row;
 			}
 			//mysql_free_result($rs);
-			
+
 			return $scan;
 		} else { // using temp files
 			$filename = $_SESSION['resultdir'] . $record . ".dat";
@@ -385,7 +385,7 @@
 	// loads a file to a key=>value array, which explains type of URLs found/unfound
 	function loadLinksDesc(){
 		$desc = array();
-		
+
 		$lines = file($_SESSION['statisticsdir'] . "links.txt");
 		foreach ($lines as $k=>$v){
 			$tokens = explode("#", $v);
@@ -394,7 +394,7 @@
 		//html_print_r($desc);
 		return $desc;
 	}
-	
+
 	//loads possible bots into an array. Requests coming from these bots will be logged but not shown
 	// in the statistics page
 	function loadBotsList(){
