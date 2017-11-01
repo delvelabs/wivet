@@ -183,7 +183,8 @@
 
                     echo '<script>function deleteAll(){
                        if(window.prompt("1 + 1 = ?") === "2"){
-                           window.location.href = "statistics.php?rm_id=ALL_ENTRIES";
+                           var id= "ALL_ENTRIES";
+                           window.location.href = "statistics.php?rm_id=" + id;
                        }
                     }</script>';
 
