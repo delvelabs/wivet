@@ -109,9 +109,9 @@
 
 	if(!isset($_SESSION['scan']['ipaddress'])){
         if (array_key_exists('HTTP_X_FORWARDED_FOR', $_SERVER)){
-            $_SESSION['scan']['ipaddress'] =$_SERVER["HTTP_X_FORWARDED_FOR"];
+            $_SESSION['scan']['ipaddress'] = $_SERVER["HTTP_X_FORWARDED_FOR"];
         }else if (array_key_exists('REMOTE_ADDR', $_SERVER)) {
-            $_SESSION['scan']['ipaddress'] =  $_SERVER["REMOTE_ADDR"];
+            $_SESSION['scan']['ipaddress'] = $_SERVER["REMOTE_ADDR"];
         }else if (array_key_exists('HTTP_CLIENT_IP', $_SERVER)) {
             $_SESSION['scan']['ipaddress'] = $_SERVER["HTTP_CLIENT_IP"];
         }
