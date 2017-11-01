@@ -237,7 +237,7 @@
 
 	// saves a scans data
 
-	function saveScan ($data, $record = '') {
+	function saveScan ($data, $pageVisit = '', $record = '') {
 		GLOBAL $db;
 		if($record == '') {
 			$record = $_SESSION['scan']['record'];
@@ -268,8 +268,24 @@
 				return;
 			}
 
+            $storedData = loadScan();
+
+            if($storedData != false && $pageVisit != ''){
+
+                if(isset($storedData["pageVisits"][$pageVisit["testcase"]])){
+                    $storedData["pageVisits"][$pageVisit["testcase"]]["noofaccess"]++;
+                    $storedData['pageVisits'][$pageVisit["testcase"]]["timelastaccess"] = time();
+                    $storedData['pageVisits'][$pageVisit["testcase"]]["useragent"] = $_SERVER['HTTP_USER_AGENT'];
+                } else {
+                    $storedData["pageVisits"][$pageVisit["testcase"]] = $pageVisit;
+                }
+
+            } else {
+                $storedData = $data;
+            }
+
 			$filename = $_SESSION['resultdir'] . $record . ".dat";
-			if(file_put_contents($filename,serialize($data))) {
+			if(file_put_contents($filename,serialize($storedData))) {
 			} else {
 				echo "Could not save record"; //"cant open file : " . $_SESSION['resultdir'] . $filename . ".dat";
 			}
@@ -319,9 +335,9 @@
 			$_SESSION['scan']['pageVisits'][$testcase]["timelastaccess"] = time();
 		}
 
-		if(DATASTORE == 'db') {
-			saveScan($_SESSION['scan']);
+        saveScan($_SESSION['scan'], $_SESSION['scan']['pageVisits'][$testcase]);
 
+		if(DATASTORE == 'db') {
 			$sql = "INSERT INTO pageVisits";
 			$sql .= " (record, testcase, secreturi, noofaccess, timefirstaccess, timelastaccess, useragent, ipaddress)";
 			$sql .= " VALUES ";
@@ -330,8 +346,6 @@
 			$sql .= " UPDATE noofaccess=noofaccess+1, timelastaccess = '".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['timelastaccess'])."', useragent = '".mysql_escape_string($_SESSION['scan']['pageVisits'][$testcase]['useragent'])."'";
 			$rs = mysql_query($sql, $db);
 			//mysql_free_result($rs);
-		} else {
-			saveScan($_SESSION['scan']);
 		}
 		echo '		You have reached Test Case '.htmlentities($testcase).' for the '.ordinal_num($_SESSION['scan']['pageVisits'][$testcase]['noofaccess'])." time!<br/>\n";
 	}

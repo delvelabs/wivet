@@ -118,7 +118,7 @@
 	}
 
 	if(!isset($_SESSION['scan']['record'])){
-		$_SESSION['scan']['record'] = ip2long($_SESSION['scan']['ipaddress']).'_'.$_SESSION['scan']['starttime'];
+		$_SESSION['scan']['record'] = ip2long($_SESSION['scan']['ipaddress']);
 	}
 
 	if(!isset($_SESSION['scan']['pageVisits'])){
