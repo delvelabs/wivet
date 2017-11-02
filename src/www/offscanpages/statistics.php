@@ -94,7 +94,7 @@
 						if(strlen($v["useragent"]) < 70) {
 							echo "<td>" . htmlentities($v["useragent"], ENT_QUOTES) . "</td>";
 						} else {
-							echo "<td>" . substr($v["useragent"], 0, 25) . " ... " . substr($v["useragent"], strlen($v["useragent"]) - 25, 25) . "</td>";
+							echo "<td title='" . htmlentities($v["useragent"], ENT_QUOTES) . "'>" . substr($v["useragent"], 0, 25) . "..." . substr($v["useragent"], strlen($v["useragent"]) - 25, 25) . "</td>";
 						}
 						echo "<td>" . date('Y m d H:i:s', $v["timefirstaccess"]) . "</td>";
 						echo "<td>" . date('Y m d H:i:s', $v["timelastaccess"]) . "</td>";
