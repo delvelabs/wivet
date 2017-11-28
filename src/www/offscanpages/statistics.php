@@ -28,7 +28,7 @@
 				<table>
 					<tr>
 						<td>Coverage</td>
-						<td>:&nbsp;&nbsp;<b><span id="coverage">%<?php echo intval(100*count($scan['pageVisits'])/count($descEntries)); ?></span></b></td>
+						<td>:&nbsp;&nbsp;<b><span id="coverage"><?php echo intval(100*count($scan['pageVisits'])/count($descEntries)); ?>%</span></b></td>
 					</tr>
 					<tr>
 						<td>From IP</td>
