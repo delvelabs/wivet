@@ -39,8 +39,6 @@
 						<td>:&nbsp;&nbsp;<b><?php echo htmlentities(date('M dS Y h:i:s A', $scan['starttime']), ENT_QUOTES);?></b></td>
 					</tr>
 				</table>
-				<br/>
-				<span class="explanation">purple rows indicate missed cases, other rows indicate hit.</span>
 				<br/><br/>
 				<table class="list">
 					<thead>
