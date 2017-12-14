@@ -55,5 +55,6 @@
 20_1e833#html encoded links
 21_1f822#protocol relative links
 22_16e11#websocket set
-22_abcde#websocket create 
+22_abcde#websocket create
 22_abcde#websocket split
+23_16e1a#referrer restriction
